@@ -40,7 +40,7 @@ SSH is how your Terminal logs into the VM. It uses a key pair instead of a passw
 3. **Name:** `blackhawkss`.
 4. **Placement:** leave default (if the next step fails with "Out of host capacity", come back and try a different *Availability domain* here).
 5. **Image and shape** → click **Edit**:
-   - **Image:** click *Change image* → choose **Canonical Ubuntu 24.04** and tick the **aarch64 / ARM** variant.
+   - **Image:** click *Change image* → choose **Canonical Ubuntu 24.04** (plain, not Minimal) and expand its ▸ row to pick the **aarch64** build. If only *Minimal aarch64* is offered for ARM, that is fine too — just run `sudo apt update && sudo apt install -y iptables-persistent curl git` first thing in Part C. Avoid 26.04 (too new for Docker's installer).
    - **Shape:** click *Change shape* → **Ampere** → **VM.Standard.A1.Flex** → set **2 OCPUs** and **12 GB** memory. This is the free allowance.
 6. **Networking:** leave the defaults (it creates a VCN for you). Make sure **Assign a public IPv4 address** is selected.
 7. **Add SSH keys:** choose **Paste public keys** and paste the line you copied in Part A.
@@ -48,7 +48,7 @@ SSH is how your Terminal logs into the VM. It uses a key pair instead of a passw
 9. Click **Create**. Wait until the status turns **Running** (1–2 min).
 10. On the instance page, copy the **Public IP address**. Write it down — call it `VM_IP` below.
 
-> **"Out of host capacity"**: the free ARM shape is popular. Retry a few times at different hours, try another availability domain, or upgrade the account to **Pay As You Go** (Billing → Upgrade). Upgrading keeps the free tier free but gets you capacity priority; nothing is charged unless you add paid resources.
+> **"Out of host capacity"**: the free ARM shape is popular and Hyderabad has a single availability domain. Retry **Create** every few minutes (nights and early mornings IST are better), or upgrade the account to **Pay As You Go** (Billing → Upgrade and Manage Payment). Upgrading keeps Always Free resources free but gives capacity priority; set a Budget alert at ₹100 for peace of mind.
 
 ### Open the web ports in Oracle's firewall
 
@@ -71,19 +71,20 @@ ssh -i ~/.ssh/blackhawkss ubuntu@VM_IP
 ```
 Type `yes` when asked about the fingerprint. You're now typing commands **on the VM** (prompt shows `ubuntu@blackhawkss`).
 
-1. Ubuntu's own firewall also blocks 80/443. Open them:
+1. (Minimal image only) `sudo apt update && sudo apt install -y iptables-persistent curl git`
+2. Ubuntu's own firewall also blocks 80/443. Open them:
    ```bash
    sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 80 -j ACCEPT
    sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 443 -j ACCEPT
    sudo netfilter-persistent save
    ```
-2. Update the system and install Docker:
+3. Update the system and install Docker:
    ```bash
    sudo apt update && sudo apt -y upgrade
    curl -fsSL https://get.docker.com | sudo sh
    sudo usermod -aG docker $USER
    ```
-3. Log out and back in so Docker works without `sudo`:
+4. Log out and back in so Docker works without `sudo`:
    ```bash
    exit
    ssh -i ~/.ssh/blackhawkss ubuntu@VM_IP
