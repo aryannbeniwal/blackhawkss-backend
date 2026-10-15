@@ -1,5 +1,7 @@
 # Deploying blackhawkss.in on an Oracle Cloud Always-Free VM
 
+> New to VMs? Read **`STEP-BY-STEP.md`** in this folder first — it covers every click and command.
+
 Target: one Ampere A1 instance (the free allowance is 2 OCPU / 12 GB RAM, 200 GB storage), Ubuntu 24.04 ARM, running Postgres + API + Next.js + nginx with docker-compose. Nothing here runs automatically; every step is manual and reversible.
 
 ## 1. Provision the VM
@@ -32,6 +34,7 @@ nano blackhawkss-backend/.env   # fill DB password, JWT_SECRET (openssl rand -ba
 At your registrar, create `A` records for `blackhawkss.in` and `www.blackhawkss.in` → the VM public IP. Wait until `dig +short blackhawkss.in` returns it.
 
 ## 5. First TLS certificate
+**Easiest:** `cd ~/apps/blackhawkss-backend/deploy && ./bootstrap-tls.sh` does everything below in one go (see `STEP-BY-STEP.md` for a beginner walkthrough of the whole deployment). Manual version:
 nginx cannot start the 443 server block without a certificate, so bootstrap once:
 ```bash
 cd ~/apps/blackhawkss-backend/deploy
