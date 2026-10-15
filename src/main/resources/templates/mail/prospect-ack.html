@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><style>body{margin:0;background:#0b0b0c;font-family:Inter,Arial,Helvetica,sans-serif;color:#f4f4f5}.wrap{max-width:600px;margin:0 auto;padding:24px 16px}.card{background:#161618;border:1px solid #2e2e33;border-radius:10px;overflow:hidden}.head{background:#0b0b0c;padding:20px 24px;border-bottom:3px solid #e02020;display:flex;align-items:center}.head img{height:48px;vertical-align:middle}.head span{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#f5b400;font-weight:700;margin-left:12px;vertical-align:middle}.body{padding:24px}h1{font-size:22px;margin:0 0 8px;color:#fff}p{line-height:1.6;margin:0 0 12px;color:#d4d4d8}.ref{display:inline-block;background:#f5b400;color:#0b0b0c;font-weight:700;padding:6px 10px;border-radius:6px;letter-spacing:.08em}table{width:100%;border-collapse:collapse;margin:16px 0}td{padding:8px 0;border-bottom:1px solid #2e2e33;vertical-align:top;font-size:14px}td.k{color:#a1a1aa;width:38%}.btn{display:inline-block;background:#e02020;color:#fff!important;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:700;margin:6px 8px 6px 0}.btn.alt{background:#232326;border:1px solid #3f3f46}.foot{padding:16px 24px;font-size:12px;color:#71717a;border-top:1px solid #2e2e33}.foot a{color:#a1a1aa}</style></head>
+<body><div class="wrap"><div class="card">
+<div class="head"><img th:src="${logoUrl}" alt="Black Hawk Security Solution"><span>Enquiry received</span></div>
+<div class="body">
+<h1>Thank you, <span th:text="${e.fullName}">there</span>.</h1>
+<p>We have received your enquiry and our team will call you from <strong th:text="${officeDisplay}">+91 88010 00054</strong> to discuss your requirements.</p>
+<p>Your reference: <span class="ref" th:text="${e.referenceCode}">BH-2026-0001</span></p>
+<table>
+<tr><td class="k">Service</td><td th:text="${e.serviceCategory}"></td></tr>
+<tr><td class="k">Location</td><td th:text="${e.location}"></td></tr>
+<tr><td class="k">Personnel</td><td th:text="${e.personnelCount}"></td></tr>
+</table>
+<p>Need to reach us sooner?</p>
+<p th:each="c : ${contacts}"><strong th:text="${c.label}"></strong>: <a th:href="'tel:+' + ${c.e164}" th:text="${c.display}" style="color:#f5b400"></a> · <a th:href="'https://wa.me/' + ${c.e164}" style="color:#a1a1aa">WhatsApp</a></p>
+</div>
+<div class="foot">Black Hawk Security Solution · Old Thana Road, Near Anaj Mandi Gate No. 1, Samalkha, Panipat, Haryana – 132101 · <a th:href="${siteUrl}" th:text="${siteUrl}"></a></div>
+</div></div></body></html>

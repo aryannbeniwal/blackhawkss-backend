@@ -1,0 +1,8 @@
+# Quick start WITHOUT Postgres: `SPRING_PROFILES_ACTIVE=dev,h2 ./gradlew bootRun`
+# In-memory H2 in PostgreSQL mode. Data is lost on restart. Never use in production.
+spring:
+  datasource:
+    url: jdbc:h2:mem:bhss;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver

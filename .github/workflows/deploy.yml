@@ -1,0 +1,26 @@
+# Manual deploy to the Oracle VM over SSH.
+# DISABLED until these repository secrets exist: VM_HOST, VM_USER, VM_SSH_KEY.
+# Trigger from the Actions tab (workflow_dispatch) once the VM is provisioned (see deploy/README.md).
+name: Deploy (manual)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ vars.DEPLOY_ENABLED == 'true' }}
+    steps:
+      - name: Pull and restart on the VM
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            set -e
+            cd ~/apps/blackhawkss-backend && git pull --ff-only
+            cd ~/apps/blackhawkss-frontend && git pull --ff-only
+            cd ~/apps/blackhawkss-backend/deploy
+            docker compose up -d --build --remove-orphans
+            docker image prune -f

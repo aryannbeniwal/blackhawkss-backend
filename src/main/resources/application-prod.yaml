@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:6}
+
+app:
+  docs:
+    enabled: ${DOCS_ENABLED:false}
+  jwt:
+    secret: ${JWT_SECRET}
+  uploads:
+    dir: ${UPLOADS_DIR:/data/uploads}

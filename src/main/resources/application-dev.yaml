@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/blackhawkss}
+    username: ${DB_USER:blackhawkss}
+    password: ${DB_PASS:blackhawkss}
+  jpa:
+    show-sql: false
+
+app:
+  docs:
+    enabled: true
+  public-base-url: ${PUBLIC_BASE_URL:http://localhost:3000}
+  admin-base-url: ${ADMIN_BASE_URL:http://localhost:3000/admin}
+  jwt:
+    # Dev-only secret. Production must set JWT_SECRET (>= 32 bytes).
+    secret: ${JWT_SECRET:dev-only-secret-change-me-dev-only-secret-change-me}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+  mail:
+    enabled: ${MAIL_ENABLED:false}
+  admin:
+    seed-email: ${ADMIN_SEED_EMAIL:admin@blackhawkss.in}
+    seed-password: ${ADMIN_SEED_PASSWORD:admin12345}
+  rate-limit:
+    # Relaxed for local testing; production uses the defaults in application.yaml
+    per-ip-per-hour: ${RATE_LIMIT_IP_HOUR:200}
+    per-phone-per-day: ${RATE_LIMIT_PHONE_DAY:50}
+
+logging:
+  level:
+    in.blackhawkss: DEBUG

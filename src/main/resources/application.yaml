@@ -1,0 +1,100 @@
+spring:
+  application:
+    name: blackhawkss-api
+  profiles:
+    default: dev
+  threads:
+    virtual:
+      enabled: true
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  servlet:
+    multipart:
+      max-file-size: 12MB
+      max-request-size: 15MB
+  mail:
+    host: ${SMTP_HOST:smtp.resend.com}
+    port: ${SMTP_PORT:465}
+    username: ${SMTP_USER:}
+    password: ${SMTP_PASS:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: ${SMTP_SSL:true}
+          starttls:
+            enable: ${SMTP_STARTTLS:false}
+          connectiontimeout: 10000
+          timeout: 10000
+          writetimeout: 10000
+  jackson:
+    default-property-inclusion: non_null
+
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: native
+  compression:
+    enabled: true
+
+management:
+  health:
+    mail:
+      # SMTP reachability must not take the service down; failures are tracked per enquiry (notifyFailed).
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+springdoc:
+  api-docs:
+    enabled: ${app.docs.enabled}
+  swagger-ui:
+    enabled: ${app.docs.enabled}
+    path: /swagger-ui.html
+
+app:
+  docs:
+    enabled: false
+  public-base-url: ${PUBLIC_BASE_URL:https://blackhawkss.in}
+  admin-base-url: ${ADMIN_BASE_URL:https://blackhawkss.in/admin}
+  jwt:
+    secret: ${JWT_SECRET:}
+    access-ttl: ${JWT_ACCESS_TTL:15m}
+    refresh-ttl: ${JWT_REFRESH_TTL:7d}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://blackhawkss.in,https://www.blackhawkss.in}
+  mail:
+    enabled: ${MAIL_ENABLED:true}
+    from: ${MAIL_FROM:Black Hawk Security Solution <leads@blackhawkss.in>}
+    owner-to: ${MAIL_OWNER_TO:helloblackhawkss@gmail.com}
+    reply-to: ${MAIL_REPLY_TO:helloblackhawkss@gmail.com}
+  uploads:
+    dir: ${UPLOADS_DIR:./data/uploads}
+  admin:
+    seed-email: ${ADMIN_SEED_EMAIL:}
+    seed-password: ${ADMIN_SEED_PASSWORD:}
+    seed-name: ${ADMIN_SEED_NAME:Black Hawk Admin}
+  rate-limit:
+    per-ip-per-hour: ${RATE_LIMIT_IP_HOUR:5}
+    per-phone-per-day: ${RATE_LIMIT_PHONE_DAY:3}
+  reminders:
+    enabled: ${REMINDERS_ENABLED:true}
+
+logging:
+  level:
+    root: INFO
+    in.blackhawkss: INFO

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><style>body{margin:0;background:#0b0b0c;font-family:Inter,Arial,Helvetica,sans-serif;color:#f4f4f5}.wrap{max-width:600px;margin:0 auto;padding:24px 16px}.card{background:#161618;border:1px solid #2e2e33;border-radius:10px;overflow:hidden}.head{background:#0b0b0c;padding:20px 24px;border-bottom:3px solid #e02020;display:flex;align-items:center}.head img{height:48px;vertical-align:middle}.head span{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#f5b400;font-weight:700;margin-left:12px;vertical-align:middle}.body{padding:24px}h1{font-size:22px;margin:0 0 8px;color:#fff}p{line-height:1.6;margin:0 0 12px;color:#d4d4d8}.ref{display:inline-block;background:#f5b400;color:#0b0b0c;font-weight:700;padding:6px 10px;border-radius:6px;letter-spacing:.08em}table{width:100%;border-collapse:collapse;margin:16px 0}td{padding:8px 0;border-bottom:1px solid #2e2e33;vertical-align:top;font-size:14px}td.k{color:#a1a1aa;width:38%}.btn{display:inline-block;background:#e02020;color:#fff!important;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:700;margin:6px 8px 6px 0}.btn.alt{background:#232326;border:1px solid #3f3f46}.foot{padding:16px 24px;font-size:12px;color:#71717a;border-top:1px solid #2e2e33}.foot a{color:#a1a1aa}</style></head>
+<body><div class="wrap"><div class="card">
+<div class="head"><img th:src="${logoUrl}" alt="Black Hawk"><span>New enquiry</span></div>
+<div class="body">
+<h1 th:text="${e.fullName}">Name</h1>
+<p><span class="ref" th:text="${e.referenceCode}">BH-2026-0001</span></p>
+<table>
+<tr><td class="k">Service</td><td th:text="${e.serviceCategory}">SECURITY_GUARDS</td></tr>
+<tr><td class="k">Mobile</td><td><a th:href="'tel:+91' + ${e.phone}" th:text="${phoneDisplay}" style="color:#f5b400"></a></td></tr>
+<tr th:if="${e.email}"><td class="k">Email</td><td th:text="${e.email}"></td></tr>
+<tr th:if="${e.organisation}"><td class="k">Organisation</td><td th:text="${e.organisation}"></td></tr>
+<tr th:if="${e.siteName}"><td class="k">Site / Event</td><td th:text="${e.siteName}"></td></tr>
+<tr><td class="k">Location</td><td th:text="${e.location}"></td></tr>
+<tr><td class="k">Preferred date</td><td th:text="${preferredDate}"></td></tr>
+<tr><td class="k">Personnel</td><td th:text="${e.personnelCount}"></td></tr>
+<tr><td class="k">Duration / shift</td><td th:text="${e.durationShift}"></td></tr>
+<tr th:if="${e.eventVenue}"><td class="k">Venue</td><td th:text="${e.eventVenue}"></td></tr>
+<tr th:if="${e.expectedCrowd}"><td class="k">Expected crowd</td><td th:text="${e.expectedCrowd}"></td></tr>
+<tr th:if="${e.eventStart}"><td class="k">Event time</td><td th:text="${e.eventStart} + ' – ' + ${e.eventEnd}"></td></tr>
+<tr><td class="k">Requirements</td><td th:text="${e.requirements}" style="white-space:pre-wrap"></td></tr>
+</table>
+<a class="btn" th:href="${waLink}">WhatsApp the prospect</a>
+<a class="btn alt" th:href="'tel:+91' + ${e.phone}">Call now</a>
+<a class="btn alt" th:href="${adminLink}">Open in admin</a>
+</div>
+<div class="foot">Sent automatically by the blackhawkss.in website. Reply to the prospect directly, not to this email.</div>
+</div></div></body></html>
